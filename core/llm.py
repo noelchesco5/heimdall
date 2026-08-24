@@ -30,12 +30,15 @@ def embed_one(text: str):
     return embed([text])[0]
 
 
-def chat_stream(messages, model=None, on_token=None):
+def chat_stream(messages, model=None, on_token=None, options=None):
+    opts = {"num_ctx": 2048}
+    if options:
+        opts.update(options)
     payload = {
         "model": model or config.CHAT_MODEL,
         "messages": messages,
         "stream": True,
-        "options": {"num_ctx": 2048},
+        "options": opts,
     }
     chunks = []
     with _post("/api/chat", payload, timeout=300) as resp:

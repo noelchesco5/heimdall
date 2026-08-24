@@ -1,0 +1,3 @@
+FROM C:\Users\hp\Documents\rag\models\Llama-3.2-1B-Instruct-Q8_0.gguf
+PARAMETER temperature 0.4
+PARAMETER num_ctx 4096
