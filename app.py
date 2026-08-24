@@ -5,7 +5,7 @@ import tkinter as tk
 from collections import deque
 from tkinter import font as tkfont
 
-from core import config, intents, llm, retriever
+from core import config, intents, lang, llm, retriever
 
 
 class HeimdallApp:
@@ -18,7 +18,8 @@ class HeimdallApp:
         self.img_count = 0
         self.index = retriever.load_index()
         self.corpus = {e["id"]: e for e in retriever.load_corpus()}
-        self.history = deque(maxlen=8)
+        self.history = deque(maxlen=config.HISTORY_MESSAGES)
+        self.lexicon = None
         self.busy = False
 
         base = tkfont.nametofont("TkDefaultFont")
@@ -85,13 +86,21 @@ class HeimdallApp:
 
     def _worker(self, text, detected):
         try:
+            if self.lexicon is None:
+                try:
+                    self.lexicon = lang.load_lexicon()
+                except Exception:
+                    self.lexicon = {}
+            block = lang.prompt_block(text, self.lexicon) if self.lexicon else ""
+            anchored = f"{block}\n---\nUser message (original): {text}" if block else text
+
             try:
                 candidates = retriever.search_input_only(
                     text, detected, self.index, self.corpus)
             except Exception:
                 candidates = []
 
-            user_content = text
+            user_content = anchored
             guidance = intents.guidance(detected)
             if guidance:
                 user_content += "\n\n[Triage hints]\n" + guidance

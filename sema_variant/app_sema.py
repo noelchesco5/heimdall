@@ -6,11 +6,14 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from core import config
+from core import lang
+from core import intents_sw
 from core.intents import detect as detect_en
 from app import HeimdallApp
 
-import intents_sw
-import sema_anchor
+
+def lang_detect_sw(text):
+    return intents_sw.detect(text)
 
 config.CHAT_MODEL = "qwen2.5:1.5b"
 
@@ -19,18 +22,16 @@ class SemaApp(HeimdallApp):
     def __init__(self, root):
         super().__init__(root)
         root.title("Heimdall Sema - medical figure RAG (Swahili)")
-        self.lexicon = sema_anchor.load_lexicon()
+        self.lexicon = lang.load_lexicon()
         if self.lexicon:
-            self._sys(f"Sema lexicon loaded: {len(self.lexicon):,} lemmas | model {config.CHAT_MODEL}")
+            self._sys(f"Sema lexicon preloaded: {len(self.lexicon):,} lemmas | model {config.CHAT_MODEL}")
         else:
-            self._sys(f"WARNING: Swahili lexicon not found at {sema_anchor.LEXICON_PATH}")
+            self._sys(f"WARNING: Swahili lexicon not found at {lang.LEXICON_PATH}")
 
     def _worker(self, text, detected):
-        detected = detected + [d for d in intents_sw.detect(text)
+        detected = detected + [d for d in lang_detect_sw(text)
                                if d["intent"] not in {x["intent"] for x in detected}]
-        block = sema_anchor.prompt_block(text, self.lexicon)
-        anchored = f"{block}\n---\nUser message (original): {text}" if block else text
-        super()._worker(anchored, detected)
+        super()._worker(text, detected)
 
 
 def main():

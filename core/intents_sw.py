@@ -26,6 +26,10 @@ SYMPTOMS_SW = {
     "koo linaniuma": ("sore throat pharyngitis", "Mild"),
     "pua inaziba": ("nasal congestion sinusitis", "Mild"),
     "uvimbe": ("swelling edema inflammation", "Moderate"),
+    "ngozi imeungua": ("bruise contusion skin injury dermatology", "Mild"),
+    "imeungua": ("bruise contusion skin injury dermatology", "Mild"),
+    "jeraha": ("wound ulcer skin lesion", "Moderate"),
+    "majipu": ("abscess pus skin infection", "Moderate"),
 }
 
 BODY_PARTS = {
@@ -46,7 +50,8 @@ BODY_PARTS = {
 }
 
 PAIN_VERBS = ["linaniuma", "linauma", "inaniuma", "inauma", "unaniuma", "unauma",
-              "naumwa", "imevimba", "limevimba", "umevimba"]
+              "naumwa", "imevimba", "limevimba", "umevimba",
+              "imeungua", "imejeruhiwa", "limejeruhiwa"]
 
 
 def detect(text):

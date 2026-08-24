@@ -1,4 +1,5 @@
 from . import config
+from . import intents_sw
 
 SYMPTOMS = {
     "fever": ("infection fever", "Moderate"),
@@ -17,7 +18,12 @@ SYMPTOMS = {
     "constipation": ("gastrointestinal bowel", "Mild"),
     "broken bone": ("fracture radiograph orthopedic", "Serious"),
     "fracture": ("fracture radiograph orthopedic", "Serious"),
-    "rash": ("dermatology skin", "Mild"),
+    "rash": ("dermatology skin eruption rash", "Mild"),
+    "sore": ("skin ulcer wound lesion", "Mild"),
+    "blister": ("blister vesicular skin lesion dermatology", "Mild"),
+    "burn": ("thermal burn wound skin injury", "Serious"),
+    "scald": ("scald hot liquid burn skin injury", "Serious"),
+    "bruise": ("bruise contusion hematoma skin", "Mild"),
     "toothache": ("dental oral", "Mild"),
     "sore throat": ("pharyngitis throat", "Mild"),
     "sinus infection": ("sinusitis nasal", "Mild"),
@@ -43,12 +49,19 @@ EMERGENCY_TERMS = {"chest pain", "breathing difficulty", "shortness of breath"}
 def detect(text: str):
     lowered = text.lower()
     found = []
+    seen = set()
     for phrase, (expansion, severity) in SYMPTOMS.items():
         if phrase in lowered:
             found.append({"intent": phrase, "expansion": expansion, "severity": severity})
+            seen.add(expansion)
     for term, (expansion, _) in MODALITIES.items():
         if term in lowered:
             found.append({"intent": term, "expansion": expansion, "severity": None})
+            seen.add(expansion)
+    for extra in intents_sw.detect(text):
+        if extra["expansion"] not in seen:
+            found.append(extra)
+            seen.add(extra["expansion"])
     return found
 
 

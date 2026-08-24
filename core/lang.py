@@ -57,7 +57,7 @@ def prompt_block(text, lex=None):
     unresolved = []
     tokens = "".join(ch if ch.isalpha() or ch in "'-" else " " for ch in text).split()
     for tok in tokens:
-        if tok.lower() in STOPWORDS:
+        if tok.lower() in STOPWORDS or len(tok) < 4:
             continue
         stem, entry = resolve(tok, lex)
         if entry is None:
@@ -66,7 +66,7 @@ def prompt_block(text, lex=None):
         gloss = tidy_gloss(entry["glosses"])
         pos = entry["pos"]
         resolved_lines.append(f"{tok} -> {stem} ({pos}): '{gloss}'")
-    if not resolved_lines and not unresolved:
+    if not resolved_lines:
         return ""
     parts = []
     if resolved_lines:
