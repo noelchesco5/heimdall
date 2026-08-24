@@ -12,6 +12,16 @@ SHOW_RE = re.compile(
     r"^\s*(?:show me|show|display|draw|give me|pictures? of|images? of|photos? of)\s+(?:a|an|the)?\s*",
     re.I,
 )
+TRAILING_PIC_RE = re.compile(r"\s+(pictures?|images?|photos?)\s*[.?!]?\s*$", re.I)
+
+
+def rewrite_show_request(text):
+    stripped = SHOW_RE.sub("", text).strip()
+    if stripped == text.strip():
+        stripped = TRAILING_PIC_RE.sub("", text).strip()
+    if stripped and stripped != text.strip():
+        return "Describe from a medical perspective: " + stripped
+    return text
 
 
 class HeimdallApp:
@@ -100,9 +110,9 @@ class HeimdallApp:
             block = lang.prompt_block(text, self.lexicon) if self.lexicon else ""
             anchored = f"{block}\n---\nUser message (original): {text}" if block else text
             if not block:
-                stripped = SHOW_RE.sub("", text).strip()
-                if stripped and stripped != text.strip():
-                    anchored = "Describe from a medical perspective: " + stripped
+                new_text = rewrite_show_request(text)
+                if new_text != text:
+                    anchored = new_text
 
             try:
                 candidates = retriever.search_input_only(
