@@ -16,6 +16,7 @@ CASES = [
     ("dry itchy skin rash", "skin -> derm figures"),
     ("what does a brain tumor look like on mri", "brain MRI figure"),
     ("show me a chest x-ray", "answers x-ray topic, not previous"),
+    ("what does a burn look like", "burn wound photos attached"),
     ("dark mole that changed shape", "melanoma figures, no refusal"),
     ("red itchy skin rash with blisters", "blister/skin figures"),
     ("stomach ulcer vs sore", "answers ulcer vs sore"),

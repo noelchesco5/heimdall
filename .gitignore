@@ -10,3 +10,4 @@ data/corpus_build.log
 data/subcaptions_public.jsonl
 data/ham_shard0.parquet
 data/dermamnist_64.npz
+data/pneumoniamnist_64.npz
