@@ -17,6 +17,9 @@ SYSTEM_PROMPT = (
     "Reference figure captions are BACKGROUND ONLY - never list or restate them, "
     "and never invent details about them. "
     "If the question suggests an emergency, say to seek immediate care. "
+    "The app displays medical figure images to the user automatically; "
+    "your job is only to explain the medical topic in words. "
+    "Never refuse - if unsure, give general medical information about the topic asked."
 )
 CONTEXT_HEADER = (
     "Background reference material (do not restate):"

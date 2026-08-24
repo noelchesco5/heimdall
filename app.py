@@ -1,4 +1,5 @@
 import queue
+import re
 import textwrap
 import threading
 import tkinter as tk
@@ -6,6 +7,11 @@ from collections import deque
 from tkinter import font as tkfont
 
 from core import config, intents, lang, llm, retriever
+
+SHOW_RE = re.compile(
+    r"^\s*(?:show me|show|display|draw|give me|pictures? of|images? of|photos? of)\s+(?:a|an|the)?\s*",
+    re.I,
+)
 
 
 class HeimdallApp:
@@ -79,7 +85,7 @@ class HeimdallApp:
 
     def _build_messages(self, user_content):
         messages = [{"role": "system", "content": config.SYSTEM_PROMPT}]
-        for role, content in list(self.history)[:-1]:
+        for role, content in self.history:
             messages.append({"role": role, "content": content})
         messages.append({"role": "user", "content": user_content})
         return messages
@@ -93,6 +99,10 @@ class HeimdallApp:
                     self.lexicon = {}
             block = lang.prompt_block(text, self.lexicon) if self.lexicon else ""
             anchored = f"{block}\n---\nUser message (original): {text}" if block else text
+            if not block:
+                stripped = SHOW_RE.sub("", text).strip()
+                if stripped and stripped != text.strip():
+                    anchored = "Describe from a medical perspective: " + stripped
 
             try:
                 candidates = retriever.search_input_only(
