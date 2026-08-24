@@ -1,2 +1,10 @@
 models/
 *.gguf
+data/tar_head.bin
+data/figures/
+data/index.json
+__pycache__/
+*.pyc
+data/corpus_build.err
+data/corpus_build.log
+data/subcaptions_public.jsonl
