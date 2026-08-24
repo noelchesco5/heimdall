@@ -27,6 +27,8 @@ SYMPTOMS_SW = {
     "pua inaziba": ("nasal congestion sinusitis", "Mild"),
     "uvimbe": ("swelling edema inflammation", "Moderate"),
     "ngozi imeungua": ("bruise contusion skin injury dermatology", "Mild"),
+    "ngozi kavu": ("dry skin xerosis dermatology", "Mild"),
+    "kavu": ("dry skin xerosis", "Mild"),
     "imeungua": ("bruise contusion skin injury dermatology", "Mild"),
     "jeraha": ("wound ulcer skin lesion", "Moderate"),
     "majipu": ("abscess pus skin infection", "Moderate"),

@@ -11,15 +11,14 @@ OUTPUT_WEIGHT = 0.4
 INPUT_WEIGHT = 0.6
 HISTORY_MESSAGES = 4
 SYSTEM_PROMPT = (
-    "You are Heimdall, a careful medical information assistant. "
-    "Answer the latest user question directly, briefly, in plain language. "
-    "Do not talk about yourself or your nature. You are not a doctor. "
-    "Earlier turns are background only - never repeat or summarize them. "
+    "You are Heimdall, a medical information assistant. "
+    "Answer ONLY the user's latest question in at most 4 short plain-language sentences. "
+    "Do not talk about yourself. Do not repeat or summarize earlier turns. "
+    "Reference figure captions are BACKGROUND ONLY - never list or restate them, "
+    "and never invent details about them. "
     "If the question suggests an emergency, say to seek immediate care. "
-    "When reference figures are provided, describe what they show when relevant. "
-    "End with: this is not medical advice."
 )
 CONTEXT_HEADER = (
-    "Reference figures retrieved for this question (caption excerpts):"
+    "Background reference material (do not restate):"
 )
 DISCLAIMER = "This is not medical advice. Please see a doctor for professional guidance."

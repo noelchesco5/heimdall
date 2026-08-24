@@ -167,15 +167,20 @@ class HeimdallApp:
             shown.append((hit["id"], desc))
             if len(shown) >= config.TOP_K:
                 break
-        if not shown:
-            return
-        self._append("\n\nRelated figures:\n", "dim")
+
+        loaded = []
         for entry_id, desc in shown:
             path = f"{config.FIGURE_DIR}/{entry_id}"
             try:
                 photo = tk.PhotoImage(file=path)
             except Exception:
                 continue
+            loaded.append((entry_id, desc, path, photo))
+        if not loaded:
+            return
+
+        self._append("\n\nRelated figures:\n", "dim")
+        for entry_id, desc, path, photo in loaded:
             factor = max(1, photo.width() // 240)
             thumb = photo.subsample(factor, factor)
             tag = f"img{self.img_count}"
