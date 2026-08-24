@@ -8,3 +8,5 @@ __pycache__/
 data/corpus_build.err
 data/corpus_build.log
 data/subcaptions_public.jsonl
+data/ham_shard0.parquet
+data/dermamnist_64.npz
