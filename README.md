@@ -72,3 +72,8 @@ anchor blocks that are prepended to the LLM prompt, and Swahili symptom
 keywords feed the same intent gate so figure retrieval works on Swahili
 input too. Use the 1.5B model minimum - 0.5B echoes Swahili instead of
 answering.
+
+## Models
+
+Chat model choice, evaluation results (incl. why Llama 3.2 1B was rejected),
+and switching instructions live in [MODELS.md](MODELS.md).
