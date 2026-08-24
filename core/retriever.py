@@ -64,3 +64,23 @@ def search(input_text, output_text, intents, index, top_k=None):
             continue
         results.append({"id": entry_id, "score": round(score, 4)})
     return results
+
+
+def search_input_only(input_text, intents, index, corpus, top_k=4):
+    top_k = top_k or 4
+    terms = " ".join(i["expansion"] for i in intents)
+    input_vec = llm.embed_one(input_text + (" " + terms if terms else ""))
+    scored = []
+    for entry_id, vec in index.items():
+        scored.append((_cosine(input_vec, vec), entry_id))
+    scored.sort(reverse=True)
+    out = []
+    for score, entry_id in scored[:top_k]:
+        entry = corpus.get(entry_id, {})
+        out.append({
+            "id": entry_id,
+            "score": round(score, 4),
+            "desc": entry.get("desc") or entry.get("text", "")[:90],
+            "caption": entry.get("text", "")[:220],
+        })
+    return out

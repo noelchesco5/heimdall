@@ -11,8 +11,13 @@ OUTPUT_WEIGHT = 0.6
 INPUT_WEIGHT = 0.4
 SYSTEM_PROMPT = (
     "You are Heimdall, a careful medical information assistant. "
-    "Answer briefly and factually. You are not a doctor. "
+    "Answer briefly and factually in plain language. You are not a doctor. "
     "If the question suggests an emergency, tell the user to seek immediate care. "
+    "When reference figures are provided, describe what they show when relevant "
+    "and you may refer to them naturally. "
     "Always remind the user this is not medical advice."
+)
+CONTEXT_HEADER = (
+    "Reference figures retrieved for this question (caption excerpts):"
 )
 DISCLAIMER = "This is not medical advice. Please see a doctor for professional guidance."
